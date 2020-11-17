@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<title> CS194 PROJECT Five </title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+* {
+    font-family: 'Oxygen Mono', monospace;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+p, h3, h4, h5 {
+    margin: 0px;
+    line-height: 1.9;
+    padding: 8px 0px;
+}
+
+.link {
+    text-decoration: none;
+    padding: 1px 8px;
+    border-radius: 5px;
+    background-color: rgba(204, 204, 204, 0.591);
+    transition: all .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.link:hover {
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: rgba(113, 99, 238, 0.591);
+}
+
+.main_container {
+    margin: auto;
+    width: 1000px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 5px;
+}
+
+.row__text {
+  margin-top: 60px;
+}
+
+.text-box {
+  width: 600px;
+}
+
+pre {
+  background-color: #eee;
+  padding: 10px 20px 0px 20px;
+}
+
+</style>
+
+<link rel="stylesheet" href="/styles/default.css">
+<script src="/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<body>
+  <div class="main_container">
+    <h1> CS194 PROJECT Five - Alex Wu </h1>
+    <div class="row__text">
+      <h2> Part One - Stitching Photo Mosaics</h2>
+      <p> 
+        I have taken three pictures in front of my home using my phone. The 
+        three pictures were taken by shooting the pictures from the same position 
+        and turning the camera. Here are the three pictures.
+    </p>
+        <div class="row">
+        <img height="400px"src="first.png"> </img>
+        <img height="400px"src="second.png"> </img>
+        <img height="400px"src="third.png"> </img>
+    </div>
+    </div>
+    <p>I decide to warp the first image into the second image, and warp the third image into the second image as well, since second image is the more 
+    "frontal" view. I first of all calculate the Homography matrix by defining six pairs of correspondence points for both pairs of images.</p>
+    <p>Then, after I get the H matrix, I inverse the H matrix and use H_inverse to calculate the reverse warpping of the images. Here are the results:</p>
+  <div>
+          <div class="row">
+        <img height="400px"src="firstsecondresult.jpg"> </img>
+        <img height="400px"src="second.png"> </img>
+        <img height="400px"src="secondthirdresult.jpg"> </img>
+        </div>
+    <p>The result is very promising. As you can see, the railing become "straight", instead of angled. Note that we only transform the first and third image since the second image is already
+    in a frontal view. </p>
+
+</div>
+
+
+</body>
+</html>
