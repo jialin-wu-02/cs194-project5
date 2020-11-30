@@ -71,30 +71,101 @@ pre {
   <div class="main_container">
     <h1> CS194 PROJECT Five - Alex Wu </h1>
     <div class="row__text">
-      <h2> Part One - Stitching Photo Mosaics</h2>
+      <h2> Part One - Auto Stitching Photo Mosaics</h2>
       <p> 
-        I have taken three pictures in front of my home using my phone. The 
-        three pictures were taken by shooting the pictures from the same position 
-        and turning the camera. Here are the three pictures.
+        I have taken six (three pairs of two) pictures around my home using my phone. The 
+        six pictures were taken by shooting the pictures from the same position 
+        and turning the camera. Here are the six pictures.
     </p>
-        <div class="row">
-        <img height="400px"src="first.png"> </img>
-        <img height="400px"src="second.png"> </img>
-        <img height="400px"src="third.png"> </img>
+    <div class="row">
+        <img height="220px"src="part1/building1.png"> </img>
+        <img height="220px"src="part1/building2.png"> </img>
+        <img height="220px"src="part1/pano1.png"> </img>
+        <img height="220px"src="part1/pano2.png"> </img>
+        <img height="220px"src="part1/first.png"> </img>
+        <img height="220px"src="part1/second.png"> </img>
     </div>
     </div>
-    <p>I decide to warp the first image into the second image, and warp the third image into the second image as well, since second image is the more 
-    "frontal" view. I first of all calculate the Homography matrix by defining six pairs of correspondence points for both pairs of images.</p>
+    <p>I decide to warp the first image into the second image. I first of all calculate the Homography matrix by defining six pairs of correspondence points for the pairs of images.</p>
     <p>Then, after I get the H matrix, I inverse the H matrix and use H_inverse to calculate the reverse warpping of the images. Here are the results:</p>
   <div>
-          <div class="row">
-        <img height="400px"src="firstsecondresult.jpg"> </img>
-        <img height="400px"src="second.png"> </img>
-        <img height="400px"src="secondthirdresult.jpg"> </img>
-        </div>
-    <p>The result is very promising. As you can see, the railing become "straight", instead of angled. Note that we only transform the first and third image since the second image is already
-    in a frontal view. </p>
+    <div class="row">
+        <img height="220px"src="part1/firstsecondresult3.jpg"> </img>
+        <img height="220px"src="part1/building2.png"> </img>
+        <img height="220px"src="part1/firstsecondresult2.jpg"> </img>
+        <img height="220px"src="part1/pano2.png"> </img>
+        <img height="220px"src="part1/firstsecondresult.jpg"> </img>
+        <img height="220px"src="part1/second.png"> </img>
+    </div>
+    <p>The result is very promising. As you can see, the railing become "straight", instead of angled. After we get 
+    the warpped image, I add an alpha channel to the pixels of each image. For the alpha value,
+    I make it decreasing in a linear way within the overlapping region 
+    of the images. Then, I simply add the two image together. Here are the results: </p>
 
+        <div class="row">
+        <img height="329px"src="part1/finalMosaic3.jpg"> </img>
+        <img height="329px"src="part1/finalMosaic2.jpg"> </img>
+        <img height="329px"src="part1/finalMosaicfinal.jpg"> </img>
+    </div>
+        <h3> What I have learned? </h3>
+    <p> I have learned that stitching is very powerful, and it can be actually surprisingly simple to do with only one 
+    transition matrix. By using least square to calculate the matrix, it is very straightforward and easy to create 
+    a decent looking pano image. </p>
+    <div class="row__text">
+      <h2> Part Two - Stitching Photo Mosaics</h2>
+      <p> 
+        I have taken six (three pairs of two) pictures around my home using my phone. The 
+        six pictures were taken by shooting the pictures from the same position 
+        and turning the camera. Here are the six pictures.
+    </p>
+    <div class="row">
+        <img height="220px"src="part1/building1.png"> </img>
+        <img height="220px"src="part1/building2.png"> </img>
+        <img height="220px"src="part1/pano1.png"> </img>
+        <img height="220px"src="part1/pano2.png"> </img>
+        <img height="220px"src="part1/first.png"> </img>
+        <img height="220px"src="part1/second.png"> </img>
+    </div>
+    </div>
+    <p>First of all, I used the Harris corner detector to detect and label corner in the pictures. Here are the results:</p>
+
+  <div>
+    <div class="row">
+        <img height="220px"src="part2/harrisfirst2.png"> </img>
+        <img height="220px"src="part2/harrissecond2.png"> </img>
+        <img height="220px"src="part2/harrisfirst3.png"> </img>
+        <img height="220px"src="part2/harrissecond3.png"> </img>
+        <img height="220px"src="part2/harrisfirst1.png"> </img>
+        <img height="220px"src="part2/harrissecond1.png"> </img>
+    </div>
+    <p>Though the harris corner detector has successfully detected corners, there are simply too many corners. To eliminate corners 
+    while preserving the "strong ones", I've used the Adaptive Non-Maximal Suppression method in the paper. Here are the corners after applying
+    this method: </p>
+
+    <div class="row">
+        <img height="220px"src="part2/suppress2first.png"> </img>
+        <img height="220px"src="part2/suppress2second.png"> </img>
+        <img height="220px"src="part2/suppress3first.png"> </img>
+        <img height="220px"src="part2/suppress3second.png"> </img>
+        <img height="220px"src="part2/suppressfirst1.png"> </img>
+        <img height="220px"src="part2/suppresssecond1.png"> </img>
+    </div>
+    <p> Then, we find all the matches of the corners by calculating the SSD between each corner and choose the best ones. 
+    Those corners would be used to calculate the Homography matrix. To get the matrix, we use RANSAC method. Essentially, it keeps trying
+    a random numbers of points and find the best homography that has the highest amount of inliner points. Then, we stitch the result together,
+    and here is the result: </p>
+    <div class="row">
+        <img height="320px"src="part2/parttwomoasiac_1.1.jpg"> </img>
+        <img height="320px"src="part2/parttwomoasiac2.jpg"> </img>
+        <img height="320px"src="part2/parttwomoasiac3.jpg"> </img>
+    </div>
+    <h3> What I have learned? </h3>
+    <p> I have learned that auto-stitching can actually be not as good as hand-stitching. As you can see, the first two Mosaics
+    that I created is very good, and they have a better result than the hand-stitching ones. However, for the third one, 
+    the image warpping is not as good as the hand-stitching one. This may be due to the fact that there are simply too few
+    "corners" presented, and most of the image is filled with natural landscape, meaning that most of the points 
+    will have a lower SSD score even if they are not matching with each other. This would lead to some incorrect matches, which 
+    give us a wrong H matrix. </p>
 </div>
 
 
